@@ -1,7 +1,9 @@
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
 asgiref==3.8.1
+black==24.10.0
 cffi==1.17.1
+click==8.1.7
 Django==4.2.17
 django-allauth==65.3.0
 django-cors-headers==4.6.0
@@ -11,6 +13,16 @@ django-extensions==3.2.3
 django-filter==24.3
 django-phonenumber-field==8.0.0
 django-widget-tweaks==1.5.0
+Faker==33.1.0
+mypy-extensions==1.0.0
+packaging==24.2
+pathspec==0.12.1
+platformdirs==4.3.6
 pycparser==2.22
+PyJWT==2.10.1
+python-dateutil==2.9.0.post0
+ruff==0.8.3
+six==1.17.0
 sqlparse==0.5.3
+typing_extensions==4.12.2
 whitenoise==6.8.2
