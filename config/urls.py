@@ -1,7 +1,7 @@
 # Imports
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 # Django admin urls
 urlpatterns = [
@@ -16,6 +16,16 @@ if settings.DEBUG:
     # Add static and media urls
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+    # Django debug toolbar
+    if "debug_toolbar" in settings.INSTALLED_APPS:
+        # Import debug toolbar
+        import debug_toolbar
+
+        # Add debug toolbar urls
+        urlpatterns = [
+            path("__debug__/", include(debug_toolbar.urls)),
+        ] + urlpatterns
 
 # Admin configuration
 admin.site.site_header = "Finance Tracker Admin"

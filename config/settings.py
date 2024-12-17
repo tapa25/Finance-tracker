@@ -24,9 +24,10 @@ SECRET_KEY = env.str(
     var="DJANGO_SECRET_KEY",
     default="&j5+b5hje=q_k*=(_1q+yg))f2q4=e=12b@#-0hz2nipu%zv%y74!vws_$-ohn-oga10pq)15=l!8ef9b7m3x#0mw0fq28-$om95",
 )
-ALLOWED_HOSTS = env.list(var="DJANGO_ALLOWED_HOSTS", default=["*"])
+ALLOWED_HOSTS = env.list(var="DJANGO_ALLOWED_HOSTS", default=["127.0.0.1"])
 CSRF_TRUSTED_ORIGINS = env.list(
-    var="DJANGO_CSRF_TRUSTED_ORIGINS", default=["http://*", "https://*"]
+    var="DJANGO_CSRF_TRUSTED_ORIGINS",
+    default=["http://127.0.0.1:8000", "https://127.0.0.1:8000"],
 )
 
 # Site settings
@@ -40,6 +41,10 @@ TIME_ZONE = "Asia/Kolkata"
 LANGUAGE_CODE = "en-us"
 USE_I18N = True
 USE_TZ = True
+
+# Django debug toolbar
+# ------------------------------------------------------------------------------
+INTERNAL_IPS = env.list(var="DJANGO_INTERNAL_IPS", default=["127.0.0.1"])
 
 # Databases
 # ------------------------------------------------------------------------------
@@ -69,6 +74,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "allauth",
     "allauth.account",
+    "debug_toolbar",
 ]
 LOCAL_APPS = []
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -111,6 +117,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 # Templates
