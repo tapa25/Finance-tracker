@@ -77,6 +77,7 @@ THIRD_PARTY_APPS = [
     "debug_toolbar",
     "django_extensions",
     "django_filters",
+    "widget_tweaks",
 ]
 LOCAL_APPS = []
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
