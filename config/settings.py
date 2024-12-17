@@ -75,6 +75,8 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "debug_toolbar",
+    "django_extensions",
+    "django_filters",
 ]
 LOCAL_APPS = []
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
