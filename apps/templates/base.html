@@ -14,20 +14,24 @@
               content="A simple finance tracker app built with Django and HTMX, enabling seamless tracking and management of personal finances with dynamic interactions. Lightweight, intuitive, and efficient for everyday use.">
         <meta name="keywords"
               content="finance, tracker, personal finance, budgeting, expenses, django, htmx, tailwindcss">
-        <script src="https://unpkg.com/htmx.org@2.0.4"
-                integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-        <link rel="stylesheet" href="{% static 'css/project.css' %}" />
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.22/dist/full.min.css"
+              rel="stylesheet"
+              type="text/css" />
+        <link rel="stylesheet" href="{% static "css/project.css" %}">
         {% block styles %}
         {% endblock styles %}
-        <script src="{% static 'js/project.js' %}"></script>
+        <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js"
+                integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+        <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+        <script src="{% static "js/project.js" %}"></script>
         {% block scripts %}
         {% endblock scripts %}
         {% block head %}
         {% endblock head %}
     </head>
-    <body class="min-h-screen text-white bg-gray-900">
+    <body class="min-h-screen text-white">
         {% include "components/navbar.html" %}
         <div class="max-w-screen-lg min-h-full mx-auto p-4">
             {% block content %}
