@@ -8,6 +8,11 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
 ]
 
+# Django allauth urls
+urlpatterns += [
+    path("accounts/", include("allauth.urls")),
+]
+
 # If DEBUG is True
 if settings.DEBUG:
     # Import static
