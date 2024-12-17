@@ -13,6 +13,11 @@ urlpatterns += [
     path("accounts/", include("allauth.urls")),
 ]
 
+# Apps urls
+urlpatterns += [
+    path("", include("apps.tracker.urls")),
+]
+
 # If DEBUG is True
 if settings.DEBUG:
     # Import static

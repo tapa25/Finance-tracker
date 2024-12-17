@@ -74,12 +74,13 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "allauth",
     "allauth.account",
+    "allauth.socialaccount",
     "debug_toolbar",
     "django_extensions",
     "django_filters",
     "widget_tweaks",
 ]
-LOCAL_APPS = []
+LOCAL_APPS = ["apps.tracker"]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # Authentication
@@ -88,6 +89,8 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+AUTH_USER_MODEL = "tracker.User"
+LOGIN_REDIRECT_URL = "tracker:index"
 
 # Passwords
 # ------------------------------------------------------------------------------
@@ -128,7 +131,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [str(APPS_DIR / "static")],
+        "DIRS": [str(APPS_DIR / "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
