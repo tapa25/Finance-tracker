@@ -20,6 +20,7 @@ class User(AbstractUser):
     # Meta
     class Meta:
         # Attributes
+        app_label = "tracker"
         verbose_name = "user"
         verbose_name_plural = "users"
 
@@ -73,8 +74,11 @@ class Transaction(models.Model):
         TRANSACTION_TYPE_CHOICES (tuple): Choices for the type of transaction
 
     Attributes:
+        user (ForeignKey): User who made the transaction
+        category (ForeignKey): Category of the transaction
         type (str): Type of transaction (Income or Expense)
         amount (Decimal): Amount of the transaction
+        date (Date): Date of the transaction
 
     Meta:
         verbose_name (str): "transaction"
@@ -98,17 +102,6 @@ class Transaction(models.Model):
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
-
-    # String representation
-    def __str__(self) -> str:
-        """String representation of the transaction
-
-        Returns:
-            str: Type and amount of the transaction
-        """
-
-        # Return
-        return f"{self.date} - {self.user} - {self.type} - {self.amount}"
 
     # Meta
     class Meta:
