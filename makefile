@@ -1,12 +1,17 @@
 # 🛠️ Project Makefile
 
-.PHONY: help requirements clean
+.PHONY: help requirements clean makemigrations migrate collectstatic runserver
 
 # 🎯 Default target
 help:
 	@echo "📖 Usage:"
-	@echo "   make requirements   - Generate requirements.txt"
-	@echo "   make clean          - Clean up temporary files"
+	@echo "       make help           	- Show this help message"
+	@echo "📦 Dependencies:"
+	@echo "       make requirements   	- Generate requirements.txt"
+	@echo "🧹 Cleanup:"
+	@echo "       make clean          	- Clean up temporary files"
+	@echo "🗄️ Django Management Commands:"
+	@echo "       make runserver      	- Start the Django development server"
 
 # 📦 Dependencies
 requirements:
@@ -21,3 +26,12 @@ clean:
 	@find . -name '*.pyc' -exec rm -rf {} +
 	@find . -name '*.pyo' -exec rm -rf {} +
 	@echo "✅ Cleanup complete!"
+
+# 🗄️ Django Management Commands
+runserver:
+	@echo "🌐 Starting the Django development server..."
+	@python manage.py makemigrations
+	@python manage.py migrate
+	@python manage.py collectstatic --noinput
+	@python manage.py runserver
+	@echo "✅ Server is running!"
