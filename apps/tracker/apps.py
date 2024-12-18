@@ -12,11 +12,11 @@ class TrackerConfig(AppConfig):
 
     Attributes:
         default_auto_field (str): "django.db.models.BigAutoField"
-        name (str): "tracker"
+        name (str): "apps.tracker"
         verbose_name (str): _("Tracker")
     """
 
     # Attributes
     default_auto_field = "django.db.models.BigAutoField"
-    name = "tracker"
+    name = "apps.tracker"
     verbose_name = _("Tracker")
