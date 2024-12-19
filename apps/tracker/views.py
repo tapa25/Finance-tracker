@@ -17,7 +17,10 @@ def index(request):
 def transactions_list(request):
     # Create a transaction filter
     transaction_filter = TransactionFilter(
-        data=request.GET, queryset=Transaction.objects.filter(user=request.user)
+        data=request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related(
+            "category"
+        ),
     )
 
     # Create a context dictionary
