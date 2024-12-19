@@ -41,8 +41,17 @@ def transactions_list(request):
         ),
     )
 
+    # Get the total income and total expense
+    total_income = transaction_filter.qs.get_total_income() or 0
+    total_expense = transaction_filter.qs.get_total_expense() or 0
+
     # Create a context dictionary
-    context = {"filter": transaction_filter}
+    context = {
+        "filter": transaction_filter,
+        "total_income": total_income,
+        "total_expense": total_expense,
+        "net_income": total_income - total_expense,
+    }
 
     # Check if the request is htmx request
     if request.htmx:

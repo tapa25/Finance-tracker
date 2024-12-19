@@ -30,14 +30,14 @@ def test_queryset_get_incomes_method(transactions):
     assert all([transaction.type == "INCOME" for transaction in queryset])
 
 
-# Method to test get_total_expenses method
+# Method to test get_total_expense method
 @pytest.mark.django_db
-def test_queryset_get_total_expenses_method(transactions):
-    # Call the function to get the total expenses
-    total_expenses = Transaction.objects.get_total_expenses()
+def test_queryset_get_total_expense_method(transactions):
+    # Call the function to get the total expense
+    total_expense = Transaction.objects.get_total_expense()
 
-    # Calculate the expected total expenses
-    expected_total_expenses = sum(
+    # Calculate the expected total expense
+    expected_total_expense = sum(
         [
             transaction.amount
             for transaction in transactions
@@ -45,18 +45,18 @@ def test_queryset_get_total_expenses_method(transactions):
         ]
     )
 
-    # Check if the total expenses are correct
-    assert total_expenses == expected_total_expenses
+    # Check if the total expense are correct
+    assert total_expense == expected_total_expense
 
 
-# Method to test get_total_incomes method
+# Method to test get_total_income method
 @pytest.mark.django_db
-def test_queryset_get_total_incomes_method(transactions):
-    # Call the function to get the total incomes
-    total_incomes = Transaction.objects.get_total_incomes()
+def test_queryset_get_total_income_method(transactions):
+    # Call the function to get the total income
+    total_income = Transaction.objects.get_total_income()
 
-    # Calculate the expected total incomes
-    expected_total_incomes = sum(
+    # Calculate the expected total income
+    expected_total_income = sum(
         [
             transaction.amount
             for transaction in transactions
@@ -64,5 +64,5 @@ def test_queryset_get_total_incomes_method(transactions):
         ]
     )
 
-    # Check if the total incomes are correct
-    assert total_incomes == expected_total_incomes
+    # Check if the total income are correct
+    assert total_income == expected_total_income

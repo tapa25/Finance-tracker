@@ -75,12 +75,16 @@ class Command(BaseCommand):
         if existing_users_count < 5:
             # Traverse over range of users to create
             for _ in range(5 - existing_users_count):
+                # Get the first and last anem
+                first_name = fake.first_name()
+                last_name = fake.last_name()
+
                 # Create a new user
                 User.objects.create_user(
-                    username=fake.user_name(),
-                    email=fake.email(),
-                    first_name=fake.first_name(),
-                    last_name=fake.last_name(),
+                    username=f"{first_name.lower()}{last_name.lower()}",
+                    email=f"{first_name.lower()}.{last_name.lower()}@example.com",
+                    first_name=first_name,
+                    last_name=last_name,
                     password="demo@1234",
                 )
 

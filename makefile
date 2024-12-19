@@ -1,6 +1,6 @@
 # 🛠️ Project Makefile
 
-.PHONY: help requirements clean makemigrations migrate collectstatic runserver
+.PHONY: help requirements clean makemigrations migrate collectstatic runserver test
 
 # 🎯 Default target
 help:
@@ -12,6 +12,8 @@ help:
 	@echo "       make clean          	- Clean up temporary files"
 	@echo "🗄️ Django Management Commands:"
 	@echo "       make runserver      	- Start the Django development server"
+	@echo "🧪 Testing:"
+	@echo "       make test           	- Run tests using pytest"
 
 # 📦 Dependencies
 requirements:
@@ -35,3 +37,9 @@ runserver:
 	@python manage.py collectstatic --noinput
 	@python manage.py runserver
 	@echo "✅ Server is running!"
+
+# 🧪 Testing
+test:
+	@echo "🧪 Running tests with pytest..."
+	@pytest
+	@echo "✅ Tests completed!"

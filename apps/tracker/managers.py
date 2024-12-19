@@ -38,24 +38,24 @@ class TransactionQuerySet(models.QuerySet):
         # Return all incomes
         return self.filter(type="INCOME")
 
-    # Method to get total expenses
-    def get_total_expenses(self):
-        """Get total expenses
+    # Method to get total expense
+    def get_total_expense(self):
+        """Get total expense
 
         Returns:
-            float: Total expenses
+            float: Total expense
         """
 
-        # Return total expenses
+        # Return total expense
         return self.get_expenses().aggregate(total=models.Sum("amount")).get("total", 0)
 
-    # Method to get total incomes
-    def get_total_incomes(self):
-        """Get total incomes
+    # Method to get total income
+    def get_total_income(self):
+        """Get total income
 
         Returns:
-            float: Total incomes
+            float: Total income
         """
 
-        # Return total incomes
+        # Return total income
         return self.get_incomes().aggregate(total=models.Sum("amount")).get("total", 0)
