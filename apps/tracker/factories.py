@@ -63,14 +63,21 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     # Attributes
     name = factory.Iterator(
         [
-            "Food",
-            "Transport",
-            "Entertainment",
-            "Health",
+            "Bills",
+            "Clothes",
             "Education",
-            "Shopping",
-            "Utilities",
+            "Entertainment",
+            "Food",
+            "Health",
+            "Housing",
+            "Medical",
             "Other",
+            "Shopping",
+            "Salary",
+            "Social",
+            "Transport",
+            "Utilities",
+            "Vacation",
         ]
     )
 

@@ -27,6 +27,7 @@ clean:
 	@find . -name '__pycache__' -exec rm -rf {} +
 	@find . -name '*.pyc' -exec rm -rf {} +
 	@find . -name '*.pyo' -exec rm -rf {} +
+	@find . -name '*.pytest_cache' -exec rm -rf {} +
 	@echo "✅ Cleanup complete!"
 
 # 🗄️ Django Management Commands

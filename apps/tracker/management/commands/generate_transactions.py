@@ -47,13 +47,19 @@ class Command(BaseCommand):
         # List to store categories
         categories = [
             "Bills",
-            "Food",
             "Clothes",
-            "Medical",
+            "Education",
+            "Entertainment",
+            "Food",
+            "Health",
             "Housing",
+            "Medical",
+            "Other",
+            "Shopping",
             "Salary",
             "Social",
             "Transport",
+            "Utilities",
             "Vacation",
         ]
 
