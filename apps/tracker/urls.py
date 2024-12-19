@@ -9,4 +9,5 @@ app_name = "tracker"
 # URL patterns
 urlpatterns = [
     path("", tracker_views.index, name="index"),
+    path("transactions/", tracker_views.transactions_list, name="transactions_list"),
 ]
