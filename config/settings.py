@@ -195,10 +195,16 @@ CACHES = {
 }
 
 # Static files settings
+# ------------------------------------------------------------------------------
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 STATICFILES_DIRS = [str(APPS_DIR / "static")]
 
 # Media files settings
+# ------------------------------------------------------------------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Other settings
+# ------------------------------------------------------------------------------
+DATE_INPUT_FORMATS = ["%d-%m-%Y"]

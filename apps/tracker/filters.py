@@ -1,7 +1,8 @@
 # Imports
 import django_filters
+from django import forms
 
-from apps.tracker.models import Transaction
+from apps.tracker.models import Category, Transaction
 
 
 # Transaction Filter
@@ -27,9 +28,27 @@ class TransactionFilter(django_filters.FilterSet):
         lookup_expr="iexact",
         empty_label="Any",
     )
+    start_date = django_filters.DateFilter(
+        field_name="date",
+        lookup_expr="gte",
+        label="Date From",
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+    end_date = django_filters.DateFilter(
+        field_name="date",
+        lookup_expr="lte",
+        label="Date To",
+        widget=forms.DateInput(attrs={"type": "date"}),
+    )
+    category = django_filters.ModelMultipleChoiceFilter(
+        field_name="category",
+        queryset=Category.objects.all(),
+        label="Category",
+        widget=forms.SelectMultiple(),
+    )
 
     # Meta
     class Meta:
         # Attributes
         model = Transaction
-        fields = ("transaction_type",)
+        fields = ("transaction_type", "start_date", "end_date", "category")

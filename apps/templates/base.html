@@ -14,6 +14,8 @@
               content="A simple finance tracker app built with Django and HTMX, enabling seamless tracking and management of personal finances with dynamic interactions. Lightweight, intuitive, and efficient for everyday use.">
         <meta name="keywords"
               content="finance, tracker, personal finance, budgeting, expenses, django, htmx, tailwindcss">
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
         <link rel="stylesheet" href="{% static "css/daisyui/daisyui.min.css" %}">
         <link rel="stylesheet" href="{% static "css/project.css" %}">
         {% block styles %}
@@ -21,6 +23,7 @@
         <script src="{% static "js/htmx/htmx.min.js" %}"></script>
         <script src="{% static "js/tailwind/tailwind.min.js" %}"></script>
         <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
         <script src="{% static "js/project.js" %}"></script>
         {% block scripts %}
         {% endblock scripts %}

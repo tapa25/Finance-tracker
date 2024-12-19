@@ -8,16 +8,16 @@
             <table class="table">
                 <thead class="text-sm text-white uppercase">
                     <tr>
-                        <th>Total Income</th>
-                        <th>Total Expense</th>
-                        <th>Net Income</th>
+                        <th class="px-2 md:px-4">Total Income</th>
+                        <th class="px-2 md:px-4">Total Expense</th>
+                        <th class="px-2 md:px-4">Net Income</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>${{ total_income|floatformat:2|intcomma }}</td>
-                        <td>${{ total_expense|floatformat:2|intcomma }}</td>
-                        <td>${{ net_income|floatformat:2|intcomma }}</td>
+                        <td class="px-2 md:px-4">${{ total_income|floatformat:2|intcomma }}</td>
+                        <td class="px-2 md:px-4">${{ total_expense|floatformat:2|intcomma }}</td>
+                        <td class="px-2 md:px-4">${{ net_income|floatformat:2|intcomma }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -56,7 +56,69 @@
                 {{ filter.form.transaction_type|add_label_class:"label text-white" }}
                 {% render_field filter.form.transaction_type class="select bg-gray-50 text-gray-900" %}
             </div>
+            <div class="mb-2 form-control">
+                {{ filter.form.start_date|add_label_class:"label text-white" }}
+                {% render_field filter.form.start_date class="input bg-gray-50 text-gray-900" %}
+            </div>
+            <div class="mb-2 form-control">
+                {{ filter.form.end_date|add_label_class:"label text-white" }}
+                {% render_field filter.form.end_date class="input bg-gray-50 text-gray-900" %}
+            </div>
+            <div class="mb-4 form-control overflow-visible">
+                {{ filter.form.category|add_label_class:"label text-white" }}
+                {% render_field filter.form.category class="category-select bg-gray-50 text-gray-900" %}
+            </div>
             <button class="btn btn-success">Filter</button>
         </form>
     </div>
 </div>
+{% block styles %}
+    <style>
+        .choices__item--choice {
+            color: #1f2937;
+        }
+
+        .choices__input {
+            color: #1f2937;
+        }
+
+        .choices__item--selectable {
+            color: #1f2937;
+        }
+
+        .choices__item--selectable.is-highlighted {
+            color: #16a34a;
+        }
+    </style>
+{% endblock styles %}
+{% block scripts %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const categorySelect = document.querySelector('.category-select');
+        if (categorySelect) {
+            new Choices(categorySelect, {
+                removeItemButton: true,
+                duplicateItems: false,
+                delimiter: ',',
+                maxItemCount: 5,
+                searchPlaceholderValue: 'Search categories...',
+                itemSelectText: '',
+            });
+        }
+    });
+
+    document.body.addEventListener('htmx:afterSwap', function(event) {
+        const categorySelect = document.querySelector('.category-select');
+        if (categorySelect) {
+            new Choices(categorySelect, {
+                removeItemButton: true,
+                duplicateItems: false,
+                delimiter: ',',
+                maxItemCount: 5,
+                searchPlaceholderValue: 'Search categories...',
+                itemSelectText: '',
+            });
+        }
+    });
+    </script>
+{% endblock scripts %}
