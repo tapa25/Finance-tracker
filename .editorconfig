@@ -18,6 +18,9 @@ indent_size = 4
 indent_style = space
 indent_size = 4
 
+# JavaScript, TypeScript, CoffeeScript, Markdown files
+[*.{js,ts,coffee,md}]
+
 # Markdown files
 [*.md]
 trim_trailing_whitespace = false
