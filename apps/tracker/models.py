@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from apps.tracker.managers import TransactionQuerySet
+
 
 # Custom User Model
 class User(AbstractUser):
@@ -52,7 +54,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
     # String representation
-    def __str__(self) -> str:
+    def __str__(self):
         """String representation of the category
 
         Returns:
@@ -80,6 +82,9 @@ class Transaction(models.Model):
         amount (Decimal): Amount of the transaction
         date (Date): Date of the transaction
 
+    Manager:
+        objects (TransactionQuerySet): Transaction manager
+
     Meta:
         verbose_name (str): "transaction"
         verbose_name_plural (str): "transactions"
@@ -102,6 +107,9 @@ class Transaction(models.Model):
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
+
+    # Manager
+    objects = TransactionQuerySet.as_manager()
 
     # Meta
     class Meta:

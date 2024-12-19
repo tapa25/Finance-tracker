@@ -8,6 +8,15 @@ from apps.tracker.models import Transaction
 
 # Index view
 def index(request):
+    """Index view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
     # Render the index.html template
     return render(request, "tracker/index.html")
 
@@ -15,6 +24,15 @@ def index(request):
 # Transaction list view
 @login_required
 def transactions_list(request):
+    """Transaction list view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
     # Create a transaction filter
     transaction_filter = TransactionFilter(
         data=request.GET,
