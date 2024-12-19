@@ -79,6 +79,7 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     "django_filters",
     "widget_tweaks",
+    "django_htmx",
 ]
 LOCAL_APPS = ["apps.tracker"]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -124,6 +125,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 # Templates
