@@ -1,6 +1,7 @@
 # Imports
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django_htmx.http import retarget
 
 from apps.tracker.filters import TransactionFilter
 from apps.tracker.forms import TransactionForm
@@ -96,6 +97,19 @@ def transaction_create(request):
             return render(
                 request, "tracker/components/transaction_success.html", context
             )
+
+        # If the form is not valid
+        else:
+            # Create a context dictionary
+            context = {"form": form}
+
+            # Create a response object
+            response = render(
+                request, "tracker/components/transaction_create.html", context
+            )
+
+            # Return the retarget response
+            return retarget(response, "#transaction-block")
 
     # Create a context dictionary
     context = {"form": TransactionForm()}

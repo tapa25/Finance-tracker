@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-<h1 class="mt-8 mb-4 prose prose-2xl text-white">Create Transaction</h1>
+<h1 class="mt-8 mb-4 prose prose-2xl text-white font-bold">Create Transaction</h1>
 <form hx-post="{% url 'tracker:transaction_create' %}">
     <div class="mb-2 form-control">
         {{ form.type|add_label_class:"label text-white" }}
@@ -8,6 +8,7 @@
     <div class="mb-2 form-control">
         {{ form.amount|add_label_class:"label text-white" }}
         {% render_field form.amount class="input bg-gray-50 text-gray-900" %}
+        {% for error in form.amount.errors %}<p class="text-red-400 mt-1">&nbsp;&nbsp;*{{ error }}</p>{% endfor %}
     </div>
     <div class="mb-2 form-control">
         {{ form.date|add_label_class:"label text-white" }}
@@ -18,6 +19,10 @@
         {% render_field form.category class="bg-gray-50 text-gray-900" id="category-single-select" %}
     </div>
     <button class="btn btn-success">Add</button>
+    <button class="btn btn-error"
+            hx-get="{% url "tracker:transactions_list" %}"
+            hx-target="#transaction-block"
+            hx-push-url="{% url "tracker:transactions_list" %}">Cancel</button>
 </form>
 {% block styles %}
     <style>
