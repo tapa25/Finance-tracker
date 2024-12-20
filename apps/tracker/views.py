@@ -1,6 +1,6 @@
 # Imports
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django_htmx.http import retarget
 
 from apps.tracker.filters import TransactionFilter
@@ -116,3 +116,63 @@ def transaction_create(request):
 
     # Render the transaction_create.html template
     return render(request, "tracker/components/transaction_create.html", context)
+
+
+# Transaction update view
+@login_required
+def transaction_update(request, pk):
+    """Transaction update view
+
+    Args:
+        request (HttpRequest): The request object
+        pk (int): The primary key of the transaction
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Get the transaction object
+    transaction = get_object_or_404(Transaction, pk=pk)
+
+    # If the request is POST
+    if request.method == "POST":
+        # Create a transaction form
+        form = TransactionForm(request.POST, instance=transaction)
+
+        # Check if the form is valid
+        if form.is_valid():
+            # Save the form
+            form.save()
+
+            # Create a context dictionary
+            context = {"message": "Transaction updated successfully!"}
+
+            # Render the transaction_success.html template
+            return render(
+                request, "tracker/components/transaction_success.html", context
+            )
+
+        # If the form is not valid
+        else:
+            # Create a context dictionary
+            context = {
+                "form": form,
+                "transaction": transaction,
+            }
+
+            # Create a response object
+            response = render(
+                request, "tracker/components/transaction_update.html", context
+            )
+
+            # Return the retarget response
+            return retarget(response, "#transaction-block")
+
+    # Create a context dictionary
+    context = {
+        "form": TransactionForm(instance=transaction),
+        "transaction": transaction,
+    }
+
+    # Render the transaction_update.html template
+    return render(request, "tracker/components/transaction_update.html", context)

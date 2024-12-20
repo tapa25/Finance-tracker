@@ -15,4 +15,9 @@ urlpatterns = [
         tracker_views.transaction_create,
         name="transaction_create",
     ),
+    path(
+        "transactions/<int:pk>/update/",
+        tracker_views.transaction_update,
+        name="transaction_update",
+    ),
 ]
