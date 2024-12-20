@@ -201,3 +201,47 @@ def test_transaction_create_view_negative_amount(user, transaction_dict_params, 
 
     # Check if HX-Retarget header is present
     assert response.has_header("HX-Retarget")
+
+
+# Function to test the transaction update view
+@pytest.mark.django_db
+def test_transaction_update_view(user, transaction_dict_params, client):
+    # Login the user
+    client.force_login(user)
+
+    # Check if the user has only 1 transaction
+    assert Transaction.objects.filter(user=user).count() == 1
+
+    # Get the transaction for the user
+    transaction = Transaction.objects.filter(user=user).first()
+
+    # Update the fields
+    transaction_dict_params["type"] = (
+        "EXPENSE" if transaction.type == "INCOME" else "INCOME"
+    )
+    transaction_dict_params["amount"] += 100
+    transaction_dict_params["date"] = date.today() - timedelta(days=30)
+
+    # Create a request
+    headers = {"HTTP_HX-Request": "true"}
+
+    # Get the response from the transaction_update view
+    response = client.post(
+        reverse("tracker:transaction_update", kwargs={"pk": transaction.pk}),
+        transaction_dict_params,
+        **headers,
+    )
+
+    # Check the transactions count
+    assert Transaction.objects.filter(user=user).count() == 1
+
+    # Get the updated transaction
+    transaction = Transaction.objects.get(pk=transaction.pk)
+
+    # Check if the transaction fields are updated
+    assert transaction.type == transaction_dict_params["type"]
+    assert transaction.amount == transaction_dict_params["amount"]
+    assert transaction.date == transaction_dict_params["date"]
+
+    # Assert the template used
+    assertTemplateUsed(response, "tracker/components/transaction_success.html")

@@ -131,8 +131,8 @@ def transaction_update(request, pk):
         HttpResponse: The response object
     """
 
-    # Get the transaction object
-    transaction = get_object_or_404(Transaction, pk=pk)
+    # Get the transaction object for the authenticated user
+    transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
 
     # If the request is POST
     if request.method == "POST":
