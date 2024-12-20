@@ -170,7 +170,7 @@ def test_transaction_create_view(user, transaction_dict_params, client):
     )
 
     # Assert the template used
-    assertTemplateUsed(response, "tracker/components/transaction_success.html")
+    assertTemplateUsed(response, "tracker/partials/transaction_success.html")
 
 
 # Function to test the form submission error on negative amount
@@ -197,7 +197,7 @@ def test_transaction_create_view_negative_amount(user, transaction_dict_params, 
     assert Transaction.objects.filter(user=user).count() == initial_transaction_count
 
     # Assert the template used
-    assertTemplateUsed(response, "tracker/components/transaction_create.html")
+    assertTemplateUsed(response, "tracker/partials/transaction_create.html")
 
     # Check if HX-Retarget header is present
     assert response.has_header("HX-Retarget")
@@ -244,7 +244,7 @@ def test_transaction_update_view(user, transaction_dict_params, client):
     assert transaction.date == transaction_dict_params["date"]
 
     # Assert the template used
-    assertTemplateUsed(response, "tracker/components/transaction_success.html")
+    assertTemplateUsed(response, "tracker/partials/transaction_success.html")
 
 
 # Function to test the transaction delete view
@@ -268,4 +268,4 @@ def test_transaction_delete_view(user, transaction_dict_params, client):
     assert Transaction.objects.filter(user=user).count() == 0
 
     # Assert the template used
-    assertTemplateUsed(response, "tracker/components/transaction_success.html")
+    assertTemplateUsed(response, "tracker/partials/transaction_success.html")

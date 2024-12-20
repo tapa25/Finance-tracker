@@ -81,6 +81,7 @@ THIRD_PARTY_APPS = [
     "django_filters",
     "widget_tweaks",
     "django_htmx",
+    "template_partials",
 ]
 LOCAL_APPS = ["apps.tracker"]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -204,6 +205,10 @@ STATICFILES_DIRS = [str(APPS_DIR / "static")]
 # ------------------------------------------------------------------------------
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Pagination settings
+# ------------------------------------------------------------------------------
+PAGE_SIZE = 5
 
 # Other settings
 # ------------------------------------------------------------------------------

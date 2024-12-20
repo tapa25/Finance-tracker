@@ -25,4 +25,9 @@ urlpatterns = [
         tracker_views.transaction_delete,
         name="transaction_delete",
     ),
+    path(
+        "transactions/get/",
+        tracker_views.transactions_get,
+        name="transactions_get",
+    ),
 ]

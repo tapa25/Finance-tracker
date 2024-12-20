@@ -1,7 +1,7 @@
 {% load widget_tweaks %}
 <h1 class="mt-8 mb-4 prose prose-2xl text-white font-bold">Update Transaction</h1>
 <form hx-post="{% url 'tracker:transaction_update' transaction.pk %}">
-    {% include "tracker/components/transaction_form.html" %}
+    {% include "tracker/partials/transaction_form.html" %}
     <button class="btn btn-success">Update</button>
     <button class="btn btn-error"
             hx-get="{% url "tracker:transactions_list" %}"

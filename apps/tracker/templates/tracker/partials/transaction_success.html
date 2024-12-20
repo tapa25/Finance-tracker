@@ -10,8 +10,10 @@
 <div class="mt-4">
     <button class="btn btn-success"
             hx-get="{% url "tracker:transaction_create" %}"
-            hx-target="#transaction-block">Add Transaction</button>
+            hx-target="#transaction-block"
+            hx-push-url="true">Add Transaction</button>
     <button class="btn btn-success"
             hx-get="{% url "tracker:transactions_list" %}"
-            hx-target="#transaction-block">View Transactions</button>
+            hx-target="#transaction-block"
+            hx-push-url="true">View Transactions</button>
 </div>
