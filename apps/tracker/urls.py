@@ -20,4 +20,9 @@ urlpatterns = [
         tracker_views.transaction_update,
         name="transaction_update",
     ),
+    path(
+        "transactions/<int:pk>/delete/",
+        tracker_views.transaction_delete,
+        name="transaction_delete",
+    ),
 ]

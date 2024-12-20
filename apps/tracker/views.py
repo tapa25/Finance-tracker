@@ -1,6 +1,7 @@
 # Imports
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.http import require_http_methods
 from django_htmx.http import retarget
 
 from apps.tracker.filters import TransactionFilter
@@ -176,3 +177,32 @@ def transaction_update(request, pk):
 
     # Render the transaction_update.html template
     return render(request, "tracker/components/transaction_update.html", context)
+
+
+# Transaction delete view
+@login_required
+@require_http_methods(["DELETE"])
+def transaction_delete(request, pk):
+    """Transaction delete view
+
+    Args:
+        request (HttpRequest): The request object
+        pk (int): The primary key of the transaction
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Get the transaction object for the authenticated user
+    transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
+
+    # Delete the transaction
+    transaction.delete()
+
+    # Create a context dictionary
+    context = {
+        "message": f"Transaction Amount: {transaction.amount} Date: {transaction.date} deleted successfully!"
+    }
+
+    # Render the transaction_success.html template
+    return render(request, "tracker/components/transaction_success.html", context)
