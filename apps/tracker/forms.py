@@ -46,7 +46,7 @@ class TransactionForm(forms.ModelForm):
             raise forms.ValidationError("Amount must be greater than 0")
 
         # Return the cleaned amount
-        return amount.round(2)
+        return amount
 
     # Meta
     class Meta:

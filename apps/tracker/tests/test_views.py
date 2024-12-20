@@ -5,8 +5,9 @@ from datetime import date, timedelta
 import pytest
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.urls import reverse
+from pytest_django.asserts import assertTemplateUsed
 
-from apps.tracker.models import Category
+from apps.tracker.models import Category, Transaction
 
 
 # Function to test the total values on transactions_list view
@@ -144,3 +145,59 @@ def test_category_filter(user_transactions, client):
 
     # Check if all the transactions are in the sampled categories
     assert all([t.category in sampled_categories for t in queryset])
+
+
+# Function to test the transaction create view
+@pytest.mark.django_db
+def test_transaction_create_view(user, transaction_dict_params, client):
+    # Login the user
+    client.force_login(user)
+
+    # Get the transaction count for the user
+    initial_transaction_count = Transaction.objects.filter(user=user).count()
+
+    # Create a request
+    headers = {"HTTP_HX-Request": "true"}
+
+    # Get the response from the transaction_create view
+    response = client.post(
+        reverse("tracker:transaction_create"), transaction_dict_params, **headers
+    )
+
+    # Check if the transaction count increased by 1
+    assert (
+        Transaction.objects.filter(user=user).count() == initial_transaction_count + 1
+    )
+
+    # Assert the template used
+    assertTemplateUsed(response, "tracker/components/transaction_success.html")
+
+
+# Function to test the form submission error on negative amount
+@pytest.mark.django_db
+def test_transaction_create_view_negative_amount(user, transaction_dict_params, client):
+    # Login the user
+    client.force_login(user)
+
+    # Change the amount to negative
+    transaction_dict_params["amount"] = -transaction_dict_params["amount"]
+
+    # Get the transaction count for the user
+    initial_transaction_count = Transaction.objects.filter(user=user).count()
+
+    # Create a request
+    headers = {"HTTP_HX-Request": "true"}
+
+    # Get the response from the transaction_create view
+    response = client.post(
+        reverse("tracker:transaction_create"), transaction_dict_params, **headers
+    )
+
+    # Check if the transaction count remains the same
+    assert Transaction.objects.filter(user=user).count() == initial_transaction_count
+
+    # Assert the template used
+    assertTemplateUsed(response, "tracker/components/transaction_create.html")
+
+    # Check if HX-Retarget header is present
+    assert response.has_header("HX-Retarget")
