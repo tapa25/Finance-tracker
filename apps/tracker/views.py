@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from apps.tracker.filters import TransactionFilter
+from apps.tracker.forms import TransactionForm
 from apps.tracker.models import Transaction
 
 
@@ -62,3 +63,42 @@ def transactions_list(request):
 
     # Render the transactions_list.html template
     return render(request, "tracker/transactions_list.html", context)
+
+
+# Transaction create view
+@login_required
+def transaction_create(request):
+    """Transaction create view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # If request is POST
+    if request.method == "POST":
+        # Create a transaction form
+        form = TransactionForm(request.POST)
+
+        # Check if the form is valid
+        if form.is_valid():
+            # Save the form
+            transaction = form.save(commit=False)
+            transaction.user = request.user
+            transaction.save()
+
+            # Create a context dictionary
+            context = {"message": "Transaction created successfully!"}
+
+            # Render the transaction_success.html template
+            return render(
+                request, "tracker/components/transaction_success.html", context
+            )
+
+    # Create a context dictionary
+    context = {"form": TransactionForm()}
+
+    # Render the transaction_create.html template
+    return render(request, "tracker/components/transaction_create.html", context)
