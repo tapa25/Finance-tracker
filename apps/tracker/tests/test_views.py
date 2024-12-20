@@ -245,3 +245,27 @@ def test_transaction_update_view(user, transaction_dict_params, client):
 
     # Assert the template used
     assertTemplateUsed(response, "tracker/components/transaction_success.html")
+
+
+# Function to test the transaction delete view
+@pytest.mark.django_db
+def test_transaction_delete_view(user, transaction_dict_params, client):
+    # Login the user
+    client.force_login(user)
+
+    # Check if the user has only 1 transaction
+    assert Transaction.objects.filter(user=user).count() == 1
+
+    # Get the transaction for the user
+    transaction = Transaction.objects.filter(user=user).first()
+
+    # Get the response from the transaction_delete view
+    response = client.delete(
+        reverse("tracker:transaction_delete", kwargs={"pk": transaction.pk})
+    )
+
+    # Check if the transaction is deleted
+    assert Transaction.objects.filter(user=user).count() == 0
+
+    # Assert the template used
+    assertTemplateUsed(response, "tracker/components/transaction_success.html")
