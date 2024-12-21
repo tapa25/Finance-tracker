@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 from django_htmx.http import retarget
+from tablib import Dataset
 
 from apps.tracker.charts import plot_category_pie_chart, plot_income_expense_bar_chart
 from apps.tracker.filters import TransactionFilter
@@ -343,3 +344,58 @@ def transactions_export(request):
 
     # Return the response object
     return response
+
+
+# Transactions import view
+@login_required
+def transactions_import(request):
+    """Transaction import view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # If the request is POST
+    if request.method == "POST":
+        # Get the file from the request
+        file = request.FILES.get("file")
+
+        # Create a dataset from the file
+        dataset = Dataset().load(file.read().decode("utf-8"), format="csv")
+
+        # Initialize the result
+        result = TransactionResource().import_data(
+            dataset, user=request.user, dry_run=True
+        )
+
+        # If the result has no errors
+        if not result.has_errors():
+            # Import the data
+            result = TransactionResource().import_data(
+                dataset, user=request.user, dry_run=False
+            )
+
+            # Create a context dictionary
+            context = {
+                "message": f"{result.total_rows} transactions imported successfully!"
+            }
+
+            # Render the transaction_success.html template
+            return render(request, "tracker/partials/transaction_success.html", context)
+
+        # If the result has errors
+        else:
+            # Create a context dictionary
+            context = {"message": "Sorry, An Error Occurred while Importing the Data!"}
+
+            # Render the transaction_errors.html template
+            return render(request, "tracker/partials/transaction_errors.html", context)
+
+    # Create a context dictionary
+    context = {}
+
+    # Render the transactions_import.html template
+    return render(request, "tracker/partials/transactions_import.html", context)

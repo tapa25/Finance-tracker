@@ -40,4 +40,9 @@ urlpatterns = [
         tracker_views.transactions_export,
         name="transactions_export",
     ),
+    path(
+        "transactions/import/",
+        tracker_views.transactions_import,
+        name="transactions_import",
+    ),
 ]
