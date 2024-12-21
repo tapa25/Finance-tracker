@@ -30,4 +30,9 @@ urlpatterns = [
         tracker_views.transactions_get,
         name="transactions_get",
     ),
+    path(
+        "transactions/charts/",
+        tracker_views.transactions_charts,
+        name="transactions_charts",
+    ),
 ]

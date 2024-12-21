@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 from django_htmx.http import retarget
 
+from apps.tracker.charts import plot_category_pie_chart, plot_income_expense_bar_chart
 from apps.tracker.filters import TransactionFilter
 from apps.tracker.forms import TransactionForm
 from apps.tracker.models import Transaction
@@ -251,3 +252,52 @@ def transactions_get(request):
         "tracker/partials/transactions_container.html#transaction_list",
         context,
     )
+
+
+# Transaction charts view
+def transactions_charts(request):
+    """Transaction charts view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # Create a transaction filter
+    transaction_filter = TransactionFilter(
+        data=request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related(
+            "category"
+        ),
+    )
+
+    # Plot the income expense bar chart
+    income_expense_bar_chart = plot_income_expense_bar_chart(transaction_filter.qs)
+
+    # Plot the category pie chart
+    category_income_pie_chart = plot_category_pie_chart(
+        transaction_filter.qs.filter(type="INCOME"),
+        title="Income by Category",
+    )
+    category_expense_pie_chart = plot_category_pie_chart(
+        transaction_filter.qs.filter(type="EXPENSE"),
+        title="Expense by Category",
+    )
+
+    # Create a context dictionary
+    context = {
+        "filter": transaction_filter,
+        "income_expense_bar_chart": income_expense_bar_chart.to_html(),
+        "category_income_pie_chart": category_income_pie_chart.to_html(),
+        "category_expense_pie_chart": category_expense_pie_chart.to_html(),
+    }
+
+    # If the request is htmx request
+    if request.htmx:
+        # Render the charts_container.html template
+        return render(request, "tracker/partials/charts_container.html", context)
+
+    # Render the transactions_charts.html template
+    return render(request, "tracker/transactions_charts.html", context)

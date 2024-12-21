@@ -1,0 +1,92 @@
+{% load widget_tweaks %}
+<div class="flex flex-col-reverse md:grid md:grid-cols-4 md:gap-4"
+     id="charts-container">
+    <div class="col-span-3">
+        {{ income_expense_bar_chart|safe }}
+        {{ category_income_pie_chart|safe }}
+        {{ category_expense_pie_chart|safe }}
+    </div>
+    <div class="col-span-1">
+        <form hx-get="{% url "tracker:transactions_charts" %}"
+              hx-target="#charts-container"
+              hx-swap="outerHTML"
+              hx-indicator="#charts-spinner"
+              id="transactions-filter-form">
+            <div class="mb-2 form-control">
+                {{ filter.form.transaction_type|add_label_class:"label text-white" }}
+                {% render_field filter.form.transaction_type class="select bg-gray-50 text-gray-900" %}
+            </div>
+            <div class="mb-2 form-control">
+                {{ filter.form.start_date|add_label_class:"label text-white" }}
+                {% render_field filter.form.start_date class="input bg-gray-50 text-gray-900" %}
+            </div>
+            <div class="mb-2 form-control">
+                {{ filter.form.end_date|add_label_class:"label text-white" }}
+                {% render_field filter.form.end_date class="input bg-gray-50 text-gray-900" %}
+            </div>
+            <div class="mb-4 form-control overflow-visible">
+                {{ filter.form.category|add_label_class:"label text-white" }}
+                {% render_field filter.form.category class="bg-gray-50 text-gray-900" id="category-multi-select" %}
+            </div>
+            <button class="btn btn-success">Filter</button>
+        </form>
+    </div>
+    <div class="w-full flex justify-center mt-6 col-span-3">
+        <span class="loading loading-spinner loading-lg htmx-indicator"
+              id="charts-spinner"></span>
+    </div>
+</div>
+{% block styles %}
+    <style>
+        .choices__item--choice {
+            color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+        }
+
+        .choices__input {
+            color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+        }
+
+        .choices__item--selectable {
+            color: rgb(17 24 39 / var(--tw-text-opacity, 1));
+        }
+
+        .choices__item--selectable.is-highlighted {
+            color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+        }
+    </style>
+{% endblock styles %}
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const categorySelect = document.querySelector('#category-multi-select');
+            if (categorySelect) {
+                new Choices(categorySelect, {
+                    removeItemButton: true,
+                    duplicateItemsAllowed: false,
+                    delimiter: ',',
+                    maxItemCount: 5,
+                    placeholder: true,
+                    placeholderValue: 'Select categories...',
+                    searchPlaceholderValue: 'Search categories...',
+                    itemSelectText: '',
+                });
+            }
+        });
+
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            const categorySelect = document.querySelector('#category-multi-select');
+            if (categorySelect) {
+                new Choices(categorySelect, {
+                    removeItemButton: true,
+                    duplicateItemsAllowed: false,
+                    delimiter: ',',
+                    maxItemCount: 5,
+                    placeholder: true,
+                    placeholderValue: 'Select categories...',
+                    searchPlaceholderValue: 'Search categories...',
+                    itemSelectText: '',
+                });
+            }
+        });
+    </script>
+{% endblock scripts %}
