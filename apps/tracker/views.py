@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_http_methods
 from django_htmx.http import retarget
@@ -10,6 +11,7 @@ from apps.tracker.charts import plot_category_pie_chart, plot_income_expense_bar
 from apps.tracker.filters import TransactionFilter
 from apps.tracker.forms import TransactionForm
 from apps.tracker.models import Transaction
+from apps.tracker.resources import TransactionResource
 
 
 # Index view
@@ -255,6 +257,7 @@ def transactions_get(request):
 
 
 # Transaction charts view
+@login_required
 def transactions_charts(request):
     """Transaction charts view
 
@@ -301,3 +304,42 @@ def transactions_charts(request):
 
     # Render the transactions_charts.html template
     return render(request, "tracker/transactions_charts.html", context)
+
+
+# Transaction export view
+@login_required
+def transactions_export(request):
+    """Transaction export view
+
+    Args:
+        request (HttpRequest): The request object
+
+    Returns:
+        HttpResponse: The response object
+    """
+
+    # If the request is htmx request
+    if request.htmx:
+        # Send a redirect response
+        return HttpResponse(headers={"HX-Redirect": request.get_full_path()})
+
+    # Create a transaction filter
+    transaction_filter = TransactionFilter(
+        data=request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related(
+            "category"
+        ),
+    )
+
+    # Export the queryset to dataset
+    dataset = TransactionResource().export(transaction_filter.qs)
+
+    # Create a response object
+    response = HttpResponse(
+        dataset.csv,
+        content_type="text/csv",
+    )
+    response["Content-Disposition"] = 'attachment; filename="transactions.csv"'
+
+    # Return the response object
+    return response

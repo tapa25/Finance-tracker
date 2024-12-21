@@ -35,4 +35,9 @@ urlpatterns = [
         tracker_views.transactions_charts,
         name="transactions_charts",
     ),
+    path(
+        "transactions/export/",
+        tracker_views.transactions_export,
+        name="transactions_export",
+    ),
 ]

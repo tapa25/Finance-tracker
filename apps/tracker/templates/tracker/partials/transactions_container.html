@@ -25,19 +25,33 @@
         </div>
         <div class="flex justify-between items-center mt-5 mb-4">
             <h1 class="mt-8 mb-4 prose prose-2xl text-white font-semibold">Transactions</h1>
-            <a hx-get="{% url "tracker:transaction_create" %}"
-               hx-push-url="true"
-               hx-target="#transaction-block"
-               class="cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     fill="green"
-                     viewBox="0 0 24 24"
-                     stroke-width="1.5"
-                     stroke="currentColor"
-                     class="h-8 w-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-            </a>
+            <div class="flex items-center">
+                <a hx-get="{% url "tracker:transaction_create" %}"
+                   hx-push-url="true"
+                   hx-target="#transaction-block"
+                   class="cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="green"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor"
+                         class="h-8 w-8 mr-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </a>
+                <a hx-get="{% url "tracker:transactions_export" %}"
+                   hx-include="#transactions-filter-form"
+                   class="cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 24 24"
+                         fill="green"
+                         stroke-width="1.5"
+                         stroke="currentColor"
+                         class="h-7 w-7">
+                        <path d="M12 1.5a.75.75 0 0 1 .75.75V7.5h-1.5V2.25A.75.75 0 0 1 12 1.5ZM11.25 7.5v5.69l-1.72-1.72a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 1 0-1.06-1.06l-1.72 1.72V7.5h3.75a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h3.75Z" />
+                    </svg>
+                </a>
+            </div>
         </div>
         {% if transactions %}
             <table class="table">

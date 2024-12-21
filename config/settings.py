@@ -2,6 +2,7 @@
 from pathlib import Path
 
 import environ
+from import_export.formats.base_formats import CSV
 
 # Base directory of the Django project
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -82,6 +83,7 @@ THIRD_PARTY_APPS = [
     "widget_tweaks",
     "django_htmx",
     "template_partials",
+    "import_export",
 ]
 LOCAL_APPS = ["apps.tracker"]
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -209,6 +211,14 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Pagination settings
 # ------------------------------------------------------------------------------
 PAGE_SIZE = 5
+
+# Import Export settings
+# ------------------------------------------------------------------------------
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+IMPORT_EXPORT_SKIP_ADMIN_LOG = True
+IMPORT_EXPORT_IMPORT_PERMISSION_CODE = "import_export.import_data"
+IMPORT_EXPORT_EXPORT_PERMISSION_CODE = "import_export.export_data"
+IMPORT_EXPORT_DEFAULT_EXPORT_FORMATS = {"csv": CSV}
 
 # Other settings
 # ------------------------------------------------------------------------------
